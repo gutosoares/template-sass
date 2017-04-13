@@ -1,0 +1,82 @@
+// Mixin de Rsponsivo
+@mixin d($size) {
+    @if $size == l {
+        @media screen and (min-width: #{$l-device}) {
+            @content;
+        }
+    }
+    @else if $size == m {
+        @media screen and (min-width: #{$m-device}) and (max-width: #{$l-device} - 1) {
+            @content;
+        }
+    }
+    @else if $size == s {
+        @media screen and (max-width: #{$m-device} - 1) {
+            @content;
+        }
+    }
+}
+
+// Mixin estrutura do grid
+@mixin grid-structure {
+    float: left;
+    min-height: 1px;
+    margin-left: $gutter / 2;
+    margin-right: $gutter / 2;
+
+    @include d(s) {
+        width: 100%;
+        float: none;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+}
+
+// Mixin de clearfix
+@mixin clearfix {
+    &::after, &::before {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+// Mixin Container 
+@mixin container {
+    max-width: $l-device;
+    margin: 0px auto;
+    position: relative;
+
+    @include d(m) {
+        max-width: $m-device;
+    }
+
+    @include d(s) {
+        max-width: $s-device;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    @include clearfix;
+}
+
+@mixin row {
+    position: relative;
+    margin-right: -$gutter / 2;
+    margin-left: -$gutter / 2;
+
+    @include d(s) {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    @include clearfix;
+}
+
+.container {
+    @include container;
+}
+
+.row {
+    @include row;
+}

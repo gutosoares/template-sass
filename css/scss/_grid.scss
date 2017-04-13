@@ -1,0 +1,37 @@
+// Função do grid
+@function grid($col, $offset: false) {
+    $width: $col / $cols * 100 + %;
+    $result: calc(#{$width} - #{$gutter});
+
+    @if $offset == offset {
+        $gutter: $gutter / 2;
+        $result: calc(#{$width} + #{$gutter});
+    }
+
+    @return $result;
+}
+
+// Classes do grid
+@for $i from 1 through $cols {
+    .grid-#{$i} {
+        width: grid($i);
+    }
+}
+
+[class^="grid-"] {
+    @include grid-structure;
+}
+
+// Classes do grid offset
+@for $i from 1 through $cols {
+    .offset-#{$i} {
+        margin-left: grid($i, offset);
+        @extend %offset;
+    }
+}
+
+@include d(s) {
+    %offset {
+        margin-left: 0px;
+    }
+}
